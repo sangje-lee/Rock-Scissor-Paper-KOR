@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Cute+Font&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Gothic&display=swap" rel="stylesheet"> 
+
+    <style>
+        .score {
+            font-family: 'Cute Font', cursive;
+            font-size: 40px;
+        }
+
+        .score2 {
+            font-family: 'Cute Font', cursive;
+            font-size: 30px;
+        }
+
+        body {
+            font-family: 'Nanum Gothic', sans-serif;
+            /* font-size: 48px; */
+        }
+
+        .winner {
+            border-color: red;
+            border-style: double;
+            background-color: yellow;
+        }
+      </style>
+  
+
+    <title>가위바위보 게임입니다.</title>
+  </head>
+  <body>
+    <div class="jumbotron jumbotron-fluid text-center">
+        <div class="container justify-align-center">
+            <h1>가위~~바위~~보</h1>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <input type="text" class="form-control score2" id="usr" placeholder="승률: {{prob_round_win}} %"  disabled>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                {% if winner == '1' %}
+                    <div class="container-fluid text-center align-middle winner">
+                {% elif winner == '3' %}
+                    <div class="container-fluid text-center align-middle winner">
+                {% else %}
+                    <div class="container-fluid text-center align-middle">
+                {% endif %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="h1">플레이어</div>
+                        </div>
+                        <div class="col-12 text-center">
+                            {% if winner == '1' %}
+                                <div class="h4 score"><b>승리</b></div>
+                            {% elif winner == '2' %}
+                                <div class="h4 score">패배</div>
+                            {% elif winner == '3' %}
+                                <div class="h4 score">비겼습니다!</div>
+                            {% else %}
+                                <div class="h4 score">{{player_win}}</div>
+                                <div hidden>{{player_lost}}</div>
+                            {% endif %}
+                        </div>
+                        <form action="/result", method="post" class="btn-block">
+                            {% if player == '1' %}
+                                <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                    <label class="btn btn-outline-primary btn-lg active">
+                                        <input type="radio" name="options" id="{{display_scissor}}" value="{{display_scissor}}" autocomplete="off" checked disabled>{{display_scissor}}
+                                    </label>
+                                    <label class="btn btn-outline-secondary btn-lg">
+                                        <input type="radio" name="options" id="{{display_rock}}" value="{{display_rock}}"  autocomplete="off" disabled>{{display_rock}}
+                                    </label>
+                                    <label class="btn btn-outline-success btn-lg">
+                                        <input type="radio" name="options" id="{{display_paper}}" value="{{display_paper}}"  autocomplete="off" disabled>{{display_paper}}
+                                    </label>
+                                </div>
+                            {% elif player == '2' %}
+                                <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                    <label class="btn btn-outline-primary btn-lg active">
+                                        <input type="radio" name="options" id="{{display_scissor}}" value="{{display_scissor}}" autocomplete="off" disabled>{{display_scissor}}
+                                    </label>
+                                    <label class="btn btn-outline-secondary btn-lg">
+                                        <input type="radio" name="options" id="{{display_rock}}" value="{{display_rock}}"  autocomplete="off" checked disabled>{{display_rock}}
+                                    </label>
+                                    <label class="btn btn-outline-success btn-lg">
+                                        <input type="radio" name="options" id="{{display_paper}}" value="{{display_paper}}"  autocomplete="off" disabled>{{display_paper}}
+                                    </label>
+                                </div>
+                            {% elif player == '3' %}
+                                <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                    <label class="btn btn-outline-primary btn-lg active">
+                                        <input type="radio" name="options" id="{{display_scissor}}" value="{{display_scissor}}" autocomplete="off" disabled>{{display_scissor}}
+                                    </label>
+                                    <label class="btn btn-outline-secondary btn-lg">
+                                        <input type="radio" name="options" id="{{display_rock}}" value="{{display_rock}}"  autocomplete="off" disabled>{{display_rock}}
+                                    </label>
+                                    <label class="btn btn-outline-success btn-lg">
+                                        <input type="radio" name="options" id="{{display_paper}}" value="{{display_paper}}"  autocomplete="off" checked disabled>{{display_paper}}
+                                    </label>
+                                </div>
+                            {% else %}
+                                <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                    <label class="btn btn-outline-primary btn-lg active">
+                                        <input type="radio" name="options" id="{{display_scissor}}" value="{{display_scissor}}" autocomplete="off" disabled>{{display_scissor}}
+                                    </label>
+                                    <label class="btn btn-outline-secondary btn-lg">
+                                        <input type="radio" name="options" id="{{display_rock}}" value="{{display_rock}}"  autocomplete="off" disabled>{{display_rock}}
+                                    </label>
+                                    <label class="btn btn-outline-success btn-lg">
+                                        <input type="radio" name="options" id="{{display_paper}}" value="{{display_paper}}"  autocomplete="off" disabled>{{display_paper}}
+                                    </label>
+                                </div>
+                            {% endif %}
+                          <div class="col-12">
+                              <br /><input type="submit" class="btn btn-info btn-block" value="다음 라운드">
+                          </div>
+                        </form>
+                        <!-- <div class="btn-group btn-block" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-outline-primary btn-lg">가위</button>
+                            <button type="button" class="btn btn-outline-secondary btn-lg">바위</button>
+                            <button type="button" class="btn btn-outline-success btn-lg">보</button>
+                        </div>  -->
+                    </div>
+                </div>
+            </div>
+            <div class="mt-2 mt-xs-2 mt-sm-2 d-md-none"><br /><br /></div>
+            <div class="col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6">
+                {% if winner == '2' %}
+                    <div class="container-fluid text-center winner">
+                {% elif winner == '3' %}
+                    <div class="container-fluid text-center winner">
+                {% else %}
+                    <div class="container-fluid text-center">
+                {% endif %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="h1">컴퓨터</div>
+                        </div>
+                        <div class="col-12 text-center">
+                            {% if winner == '2' %}
+                                <div class="h4 score"><b>승리</b></div>
+                            {% elif winner == '1' %}
+                                <div class="h4 score">패배</div>
+                            {% elif winner == '3' %}
+                                <div class="h4 score">비겼습니다!</div>
+                            {% else %}
+                                <div class="h4 score">{{comp_win}}</div>
+                                <div hidden>{{comp_lost}}</div>
+                            {% endif %}
+                        </div>
+                        {% if computer == '1' %}
+                            <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                <label class="btn btn-outline-primary btn-lg active">
+                                    <input type="radio" name="options" id="{{display_scissor}}" value="{{display_scissor}}" autocomplete="off" checked disabled>{{display_scissor}}
+                                </label>
+                                <label class="btn btn-outline-secondary btn-lg">
+                                <input type="radio" name="options" id="{{display_rock}}" value="{{display_rock}}"  autocomplete="off" disabled>{{display_rock}}
+                                </label>
+                                <label class="btn btn-outline-success btn-lg">
+                                <input type="radio" name="options" id="{{display_paper}}" value="{{display_paper}}"  autocomplete="off" disabled>{{display_paper}}
+                                </label>
+                            </div>
+                        {% elif computer == '2' %}
+                            <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                <label class="btn btn-outline-primary btn-lg active">
+                                    <input type="radio" name="options" id="{{display_scissor}}" value="{{display_scissor}}" autocomplete="off" disabled>{{display_scissor}}
+                                </label>
+                                <label class="btn btn-outline-secondary btn-lg">
+                                <input type="radio" name="options" id="{{display_rock}}" value="{{display_rock}}"  autocomplete="off" checked disabled>{{display_rock}}
+                                </label>
+                                <label class="btn btn-outline-success btn-lg">
+                                <input type="radio" name="options" id="{{display_paper}}" value="{{display_paper}}"  autocomplete="off" disabled>{{display_paper}}
+                                </label>
+                            </div>
+                        {% elif computer == '3' %}
+                            <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                <label class="btn btn-outline-primary btn-lg active">
+                                    <input type="radio" name="options" id="{{display_scissor}}" value="{{display_scissor}}" autocomplete="off" disabled>{{display_scissor}}
+                                </label>
+                                <label class="btn btn-outline-secondary btn-lg">
+                                <input type="radio" name="options" id="{{display_rock}}" value="{{display_rock}}"  autocomplete="off" disabled>{{display_rock}}
+                                </label>
+                                <label class="btn btn-outline-success btn-lg">
+                                <input type="radio" name="options" id="{{display_paper}}" value="{{display_paper}}"  autocomplete="off" checked disabled>{{display_paper}}
+                                </label>
+                            </div>
+                        {% else %}
+                            <div class="btn-group btn-group-toggle btn-block" data-toggle="buttons">
+                                <label class="btn btn-outline-primary btn-lg active">
+                                    <input type="radio" name="options" id="{{display_scissor}}" value="{{display_scissor}}" autocomplete="off" disabled>{{display_scissor}}
+                                </label>
+                                <label class="btn btn-outline-secondary btn-lg">
+                                <input type="radio" name="options" id="{{display_rock}}" value="{{display_rock}}"  autocomplete="off" disabled>{{display_rock}}
+                                </label>
+                                <label class="btn btn-outline-success btn-lg">
+                                <input type="radio" name="options" id="{{display_paper}}" value="{{display_paper}}"  autocomplete="off" disabled>{{display_paper}}
+                                </label>
+                            </div>
+                        {% endif %}
+                        <div class="col-12 d-none d-sm-none d-md-block">
+                            <br /><button type="button" class="btn btn-outline-light btn-block">내기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3"><br /></div>
+        <div class="row">
+            <div class="col">
+                <div class="container-fluid">
+                    <div class="d-sm-block d-md-none">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <select class="custom-select" id="exampleFormControlSelect1">
+                                        <option selected>플레이어 - 컴퓨터 - 결과</option>
+                                        {% for item in combination_item_seq %}
+                                          <option>{{ item }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="d-sm-none d-md-block">
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-12 col-md-4">
+                                    <label for="formGroupExampleInput">플레이어</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                      {% for item in player_item_seq %}
+                                        <option>{{ item }}</option>
+                                      {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group  col-12 col-md-4">
+                                    <label for="formGroupExampleInput2">컴퓨터</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                        {% for item in computer_item_seq %}
+                                          <option>{{ item }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group col-12 col-md-4">
+                                    <label for="formGroupExampleInput2">결과</label>
+                                    <select class="form-control" id="exampleFormControlSelect1">
+                                        {% for item in winner_drew_seq %}
+                                          <option>{{ item }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="container-fluid">
+                    <form>
+                        <div class="form-row">
+                            <div class="form-group col-12 col-md-4">
+                                <label for="formGroupExampleInput">승리</label>
+                                <input type="text" class="form-control score2" id="formGroupExampleInput" placeholder="{{player_total_win}}"  disabled>
+                            </div>
+                            <div class="form-group  col-12 col-md-4">
+                                <label for="formGroupExampleInput2">퍠배</label>
+                                <input type="text" class="form-control score2" id="formGroupExampleInput2" placeholder="{{player_total_lost}}"  disabled>
+                            </div>
+                            <div class="form-group col-12 col-md-4">
+                                <label for="formGroupExampleInput2">승률</label>
+                                <input type="text" class="form-control score2" id="formGroupExampleInput2" placeholder="{{prob_win}} %"  disabled>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                {% if num_game == '0' %}
+                <form action="/reset", method="post" class="btn-block">
+                  <input type="submit" class="btn btn-secondary btn-lg btn-block" value="다시하기" disabled>
+                </form>
+                {% else %}
+                  <form action="/reset", method="post" class="btn-block">
+                    <input type="submit" class="btn btn-secondary btn-lg btn-block" value="다시하기">
+                  </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+  
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  </body>
+</html>
